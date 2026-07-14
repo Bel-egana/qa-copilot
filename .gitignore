@@ -1,6 +1,9 @@
 # Secrets — never commit the real API key
 .env
 
+# Local database
+data/
+
 # Python
 __pycache__/
 *.py[cod]
