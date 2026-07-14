@@ -7,6 +7,8 @@ informally and get a ready-to-file bug report.
 Built with Python, [Streamlit](https://streamlit.io) and the
 [Google Gemini API](https://ai.google.dev) (free tier — no credit card needed).
 
+![QA Copilot analyzing a user story](docs/img/app-analysis.png)
+
 ## Features
 
 | Tool | Input | Output |
@@ -19,6 +21,11 @@ Built with Python, [Streamlit](https://streamlit.io) and the
 Every tool supports **Spanish or English output** and two detail levels:
 **junior** (explains the reasoning — great for learning) and **senior**
 (concise, artifacts only).
+
+The INVEST assessment explains each verdict, so weak stories become a
+learning opportunity:
+
+![INVEST assessment table](docs/img/app-invest.png)
 
 ## How it works
 
