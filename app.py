@@ -28,7 +28,7 @@ with st.sidebar:
     if llm.get_api_key() is None:
         st.warning(
             "**No API key configured.**\n\n"
-            "1. Create a key at [console.anthropic.com](https://console.anthropic.com)\n"
+            "1. Create a free key at [aistudio.google.com](https://aistudio.google.com)\n"
             "2. Copy `.env.example` to `.env`\n"
             "3. Paste your key there and restart the app"
         )

@@ -5,7 +5,7 @@ professional analysis, gap detection and test cases; describe a defect
 informally and get a ready-to-file bug report.
 
 Built with Python, [Streamlit](https://streamlit.io) and the
-[Anthropic API](https://docs.anthropic.com).
+[Google Gemini API](https://ai.google.dev) (free tier — no credit card needed).
 
 ## Features
 
@@ -24,14 +24,13 @@ Every tool supports **Spanish or English output** and two detail levels:
 
 The prompts that power each tool live as plain Markdown files in
 [`prompts/`](prompts/) — the repo doubles as a QA prompt library you can read,
-reuse or adapt. The app fills in your input, sends it to Claude and renders
+reuse or adapt. The app fills in your input, sends it to Gemini and renders
 the result.
 
 ## Setup
 
-Requirements: Python 3.11+ and an Anthropic API key
-([create one here](https://console.anthropic.com) — a full analysis costs
-about $0.01-0.02 with the default model).
+Requirements: Python 3.11+ and a free Google Gemini API key
+([create one here](https://aistudio.google.com) — no credit card required).
 
 ```bash
 git clone https://github.com/<your-user>/qa-copilot.git

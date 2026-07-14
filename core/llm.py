@@ -1,18 +1,20 @@
-"""Thin wrapper around the Anthropic Messages API."""
+"""Thin wrapper around the Google Gemini API (free tier)."""
 
 import os
 
-import anthropic
 from dotenv import load_dotenv
+from google import genai
+from google.genai import errors as genai_errors
 
 load_dotenv()
 
-# Display name -> model ID. Haiku is the default: ~1-2 cents per full analysis.
+# Display name -> model ID. Both are available on the free tier;
+# Flash has the most generous free limits.
 MODELS = {
-    "Claude Haiku 4.5 — fast & cheap": "claude-haiku-4-5",
-    "Claude Sonnet 5 — higher quality": "claude-sonnet-5",
+    "Gemini 2.5 Flash — fast, generous free tier": "gemini-2.5-flash",
+    "Gemini 2.5 Pro — higher quality, tighter free limits": "gemini-2.5-pro",
 }
-DEFAULT_MODEL = "claude-haiku-4-5"
+DEFAULT_MODEL = "gemini-2.5-flash"
 
 _PLACEHOLDER = "your-api-key-here"
 
@@ -22,35 +24,35 @@ class LLMError(Exception):
 
 
 def get_api_key() -> str | None:
-    key = os.environ.get("ANTHROPIC_API_KEY", "").strip()
+    key = os.environ.get("GOOGLE_API_KEY", "").strip()
     if not key or key == _PLACEHOLDER:
         return None
     return key
 
 
-def generate(prompt: str, model: str = DEFAULT_MODEL, max_tokens: int = 8000) -> str:
+def generate(prompt: str, model: str = DEFAULT_MODEL) -> str:
     api_key = get_api_key()
     if api_key is None:
         raise LLMError(
-            "No API key found. Copy `.env.example` to `.env` and paste your key "
-            "from https://console.anthropic.com"
+            "No API key found. Create a free key at https://aistudio.google.com, "
+            "then copy `.env.example` to `.env` and paste it there."
         )
 
-    client = anthropic.Anthropic(api_key=api_key)
+    client = genai.Client(api_key=api_key)
     try:
-        response = client.messages.create(
-            model=model,
-            max_tokens=max_tokens,
-            messages=[{"role": "user", "content": prompt}],
-        )
-    except anthropic.AuthenticationError:
-        raise LLMError("The API key was rejected. Check the key in your `.env` file.")
-    except anthropic.RateLimitError:
-        raise LLMError("Rate limit reached. Wait a minute and try again.")
-    except anthropic.APIConnectionError:
-        raise LLMError("Could not reach the Anthropic API. Check your internet connection.")
-    except anthropic.APIStatusError as exc:
-        raise LLMError(f"The API returned an error (HTTP {exc.status_code}). Try again later.")
+        response = client.models.generate_content(model=model, contents=prompt)
+    except genai_errors.APIError as exc:
+        if exc.code == 429:
+            raise LLMError(
+                "Free tier limit reached. Wait a minute and try again "
+                "(or switch to Gemini 2.5 Flash, which has higher free limits)."
+            )
+        if exc.code in (401, 403):
+            raise LLMError("The API key was rejected. Check the key in your `.env` file.")
+        raise LLMError(f"The API returned an error (HTTP {exc.code}). Try again later.")
+    except Exception:
+        raise LLMError("Could not reach the Gemini API. Check your internet connection.")
 
-    # Sonnet 5 may prepend thinking blocks; keep only text blocks.
-    return "".join(block.text for block in response.content if block.type == "text")
+    if not response.text:
+        raise LLMError("The model returned an empty response. Try again.")
+    return response.text
