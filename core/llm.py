@@ -45,7 +45,7 @@ def generate(prompt: str, model: str = DEFAULT_MODEL) -> str:
         if exc.code == 429:
             raise LLMError(
                 "Free tier limit reached. Wait a minute and try again "
-                "(or switch to Gemini 2.5 Flash, which has higher free limits)."
+                "(or switch models in the sidebar)."
             )
         if exc.code in (401, 403):
             raise LLMError("The API key was rejected. Check the key in your `.env` file.")
