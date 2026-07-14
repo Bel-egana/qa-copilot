@@ -17,6 +17,7 @@ Built with Python, [Streamlit](https://streamlit.io) and the
 | 🔍 Gap Finder | User story | Ambiguities, missing criteria, edge cases, questions for the PO |
 | ✅ Test Cases | User story | Gherkin scenarios + classic test case table (downloadable as CSV) |
 | 🐞 Bug Report | Informal defect description | Professional bug report with severity, priority and repro steps |
+| 📚 History | — | Every analysis is auto-saved locally (SQLite); browse, re-download or delete past results |
 
 Every tool supports **Spanish or English output** and two detail levels:
 **junior** (explains the reasoning — great for learning) and **senior**
@@ -63,11 +64,12 @@ python -m pytest
 
 ## Roadmap
 
-- **Phase 2 — Accounts & history:** simple login, SQLite storage of every
-  analysis, and a history browser.
+- ~~**Phase 2 — Analysis history**~~ ✅ shipped — SQLite auto-save + History tab.
 - **Phase 3 — Jira / Azure DevOps integration:** create generated bug reports
   as Jira issues in one click, plus a management dashboard with metrics pulled
   from Jira/Azure (bugs found vs. fixed per sprint, test cases per story).
+- **Authentication:** deliberately deferred — the app is local and
+  single-user; login/roles become relevant only if it is deployed multi-user.
 
 ## License
 
