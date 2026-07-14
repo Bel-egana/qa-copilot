@@ -11,10 +11,10 @@ load_dotenv()
 # Display name -> model ID. Both are available on the free tier;
 # Flash has the most generous free limits.
 MODELS = {
-    "Gemini 2.5 Flash — fast, generous free tier": "gemini-2.5-flash",
-    "Gemini 2.5 Pro — higher quality, tighter free limits": "gemini-2.5-pro",
+    "Gemini 3.5 Flash — best quality on the free tier": "gemini-3.5-flash",
+    "Gemini 3.1 Flash Lite — fastest": "gemini-3.1-flash-lite",
 }
-DEFAULT_MODEL = "gemini-2.5-flash"
+DEFAULT_MODEL = "gemini-3.5-flash"
 
 _PLACEHOLDER = "your-api-key-here"
 

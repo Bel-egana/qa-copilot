@@ -25,5 +25,5 @@ def test_generate_raises_llm_error_without_key(monkeypatch):
 
 
 def test_models_dict_has_flash_default():
-    assert llm.DEFAULT_MODEL == "gemini-2.5-flash"
+    assert llm.DEFAULT_MODEL == "gemini-3.5-flash"
     assert llm.DEFAULT_MODEL in llm.MODELS.values()
